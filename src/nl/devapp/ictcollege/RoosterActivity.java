@@ -1,47 +1,87 @@
 package nl.devapp.ictcollege;
 
-import java.io.IOException;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Typeface;
 
 public class RoosterActivity extends Activity {
-
-	protected String classNumber;
-	protected ProgressDialog loadDialog;
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_rooster);
+		
+		TableLayout table = new TableLayout(this);
+	    table.setStretchAllColumns(true);  
+	    table.setShrinkAllColumns(true);  
+		
+		//LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		
+		//table.setLayoutParams(layoutParams);
 		
 		Intent intent = getIntent();
-		classNumber = intent.getExtras().getString("class");
-		
-		TextView text = (TextView) findViewById(R.id.test);
 		
 		try {
-	        loadDialog = ProgressDialog.show(this, "Please wait", "Loading and fetching data", true);
-	        loadDialog.show();
-	        
-			Document doc = Jsoup.connect("http://interaa.nl/rooster/35/" + classNumber + ".htm").get();
-	    	Element option = (Element) doc.select("pre").first();
-	    	
-			text.setText(option.text());
+			JSONObject lessons = new JSONObject(intent.getExtras().getString("rooster")).getJSONObject("data").getJSONObject(intent.getExtras().getInt("day")+"");
 			
-			loadDialog.dismiss();
-		} catch (IOException e) {
+			for(int i = 1; i <= lessons.length(); i++) {
+				JSONObject lesson = lessons.getJSONObject(i+"");
+				
+			    TextView viewHour = new TextView(this);  
+			    viewHour.setText(i+"");  
+			    viewHour.setTypeface(Typeface.DEFAULT_BOLD); 
+
+			    TextView viewLesson = new TextView(this);  
+			    viewLesson.setText(lesson.getString("lesson"));  
+			    viewLesson.setTypeface(Typeface.DEFAULT_BOLD); 
+
+			    TextView viewTeacher = new TextView(this);  
+			    viewTeacher.setText(lesson.getString("teacher")); 
+			    viewTeacher.setTypeface(Typeface.DEFAULT_BOLD); 
+
+			    TextView viewClassRoom = new TextView(this);  
+			    viewClassRoom.setText(lesson.getString("classroom")); 
+			    viewClassRoom.setTypeface(Typeface.DEFAULT_BOLD); 
+			    
+			    TableRow lessonRow = new TableRow(this);
+			    
+			    lessonRow.addView(viewHour);
+			    lessonRow.addView(viewLesson);
+			    lessonRow.addView(viewTeacher);
+			    lessonRow.addView(viewClassRoom);
+			    
+				table.addView(lessonRow);
+			}
+			
+		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		setContentView(table);
+		
+    	getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+		    case android.R.id.home:
+		        NavUtils.navigateUpFromSameTask(this);
+		        return true;
+	    }
+	    
+	    return super.onOptionsItemSelected(item);
 	}
 
 }

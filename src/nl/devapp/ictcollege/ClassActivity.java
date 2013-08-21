@@ -2,11 +2,14 @@ package nl.devapp.ictcollege;
 
 import java.util.ArrayList;
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,12 +24,17 @@ public class ClassActivity extends Activity {
     private SharedPreferences fastSave;
     public final Activity self = this;
 
+    @SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_first);
+		setContentView(R.layout.activity_class);
+		
         fastSave = this.getSharedPreferences("global", Context.MODE_PRIVATE);
 		
+        if(fastSave.getString("class", null) != null)
+        	getActionBar().setDisplayHomeAsUpEnabled(true);
+        
         loadDialog = ProgressDialog.show(this, "Please wait", "Loading and fetching data", true);
         
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, classList);
@@ -48,7 +56,7 @@ public class ClassActivity extends Activity {
     		  Intent i = new Intent(ClassActivity.this, MainActivity.class);    		  
     		  startActivity(i);
     		  
-    		  self.finish();
+    		  ClassActivity.this.finish();
     	  }
     	  
     	});
@@ -57,5 +65,15 @@ public class ClassActivity extends Activity {
         classTask.execute();
         
 	}
-
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+		    case android.R.id.home:
+		        NavUtils.navigateUpFromSameTask(this);
+		        return true;
+	    }
+	    
+	    return super.onOptionsItemSelected(item);
+	}
 }

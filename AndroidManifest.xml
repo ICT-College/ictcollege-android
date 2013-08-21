@@ -30,10 +30,16 @@
         <activity
             android:name="nl.devapp.ictcollege.RoosterActivity"
             android:label="@string/title_activity_rooster" >
+		    <meta-data
+		       android:name="android.support.PARENT_ACTIVITY"
+		       android:value="nl.devapp.ictcollege.MainActivity" />
         </activity>
         <activity
             android:name="nl.devapp.ictcollege.ClassActivity"
             android:label="@string/title_activity_first" >
+		    <meta-data
+		       android:name="android.support.PARENT_ACTIVITY"
+		       android:value="nl.devapp.ictcollege.MainActivity" />
         </activity>
     </application>
 

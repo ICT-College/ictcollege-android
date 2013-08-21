@@ -1,11 +1,13 @@
 package nl.devapp.ictcollege;
 
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 
 class RoosterTask extends AsyncTask<Void, Void, Element> {
@@ -21,11 +23,13 @@ class RoosterTask extends AsyncTask<Void, Void, Element> {
 		super.onPostExecute(result);
 		
 		if(result != null){
-			
-			activity.loadDialog.dismiss();
+  			Editor fastEdit = activity.fastSave.edit();
+  			fastEdit.putString("cacheRooster", result.html().replace("&quot;", "'"));
+  			fastEdit.putInt("cacheTime", (int) (System.currentTimeMillis() / 1000L));
+  			fastEdit.commit();
 		}else{
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setMessage("We're unable to parse the school website, this normally means that you don't have an working internet connection.");
+            builder.setMessage("We're unable to reach our server, this normally means that you don't have an working internet connection.");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                            	activity.finish();
@@ -33,18 +37,17 @@ class RoosterTask extends AsyncTask<Void, Void, Element> {
                     });
             
             builder.show();
-			activity.loadDialog.dismiss();
 		}
+		activity.loadDialog.dismiss();
 	}
 
 	@Override
 	protected Element doInBackground(Void... params) {
 
 		try{
-			Document doc = Jsoup.connect("http://interaa.nl/rooster/35/" + activity.fastSave.getString("class", "") + ".htm").get();
-	    	Element option = (Element) doc.select("pre").first();
-	    	
-	    	return option;
+			Document doc = Jsoup.connect("http://ictcollege.wouter0100.nl/?week=35&class=" + activity.fastSave.getString("class", null)).get();
+  			
+	    	return doc.select("body").first();
 		}catch(Exception e){
 			return null;
 		}
