@@ -1,77 +1,37 @@
 package nl.devapp.ictcollege;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import nl.devapp.ictcollege.adapters.ScheduleAdapter;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
-public class RoosterActivity extends Activity {
+public class RoosterActivity extends ListActivity {
 
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		TableLayout table = new TableLayout(this);
-		table.setStretchAllColumns(true);
-		table.setShrinkAllColumns(true);
-
-		// LayoutParams layoutParams = new
-		// LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-
-		// table.setLayoutParams(layoutParams);
-
 		Intent intent = getIntent();
 
-		try {
-			JSONObject lessons = new JSONObject(intent.getExtras().getString(
-					"rooster")).getJSONObject("data").getJSONObject(
-					intent.getExtras().getInt("day") + "");
+		setContentView(R.layout.activity_rooster);
 
-			for (int i = 1; i <= lessons.length(); i++) {
-				JSONObject lesson = lessons.getJSONObject(i + "");
-
-				TextView viewHour = new TextView(this);
-				viewHour.setText(i + "");
-				viewHour.setTypeface(Typeface.DEFAULT_BOLD);
-
-				TextView viewLesson = new TextView(this);
-				viewLesson.setText(lesson.getString("lesson"));
-				viewLesson.setTypeface(Typeface.DEFAULT_BOLD);
-
-				TextView viewTeacher = new TextView(this);
-				viewTeacher.setText(lesson.getString("teacher"));
-				viewTeacher.setTypeface(Typeface.DEFAULT_BOLD);
-
-				TextView viewClassRoom = new TextView(this);
-				viewClassRoom.setText(lesson.getString("classroom"));
-				viewClassRoom.setTypeface(Typeface.DEFAULT_BOLD);
-
-				TableRow lessonRow = new TableRow(this);
-
-				lessonRow.addView(viewHour);
-				lessonRow.addView(viewLesson);
-				lessonRow.addView(viewTeacher);
-				lessonRow.addView(viewClassRoom);
-
-				table.addView(lessonRow);
-			}
-
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		setContentView(table);
+		new ListLoader(this, intent.getExtras().getString("rooster"), intent
+				.getExtras().getInt("day")).execute();
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
@@ -85,6 +45,54 @@ public class RoosterActivity extends Activity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	public class ListLoader extends AsyncTask<Void, Void, List<Schedule>> {
+		private Activity activity;
+		private String scheduleJson;
+		private int day;
+
+		public ListLoader(Activity activity, String scheduleJson, int day) {
+			this.activity = activity;
+			this.scheduleJson = scheduleJson;
+			this.day = day;
+		}
+
+		@Override
+		protected List<Schedule> doInBackground(Void... params) {
+			List<Schedule> list = new ArrayList<Schedule>();
+
+			JSONObject lessons = null;
+			try {
+				lessons = new JSONObject(this.scheduleJson).getJSONObject(
+						"data").getJSONObject(Integer.toString(this.day));
+
+				for (int i = 1; i <= lessons.length(); i++) {
+					JSONObject lesson = lessons.getJSONObject(i + "");
+
+					Schedule item = new Schedule();
+					item.setLesson(lesson.getString("lesson"));
+					item.setTeacher(lesson.getString("teacher"));
+					item.setClassRoom(lesson.getString("classroom"));
+
+					list.add(item);
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return list;
+		}
+
+		@Override
+		protected void onPostExecute(List<Schedule> schedule) {
+			ListView list = (ListView) this.activity
+					.findViewById(android.R.id.list);
+
+			ListAdapter adapter = new ScheduleAdapter(this.activity, schedule);
+			list.setAdapter(adapter);
+		}
 	}
 
 }
