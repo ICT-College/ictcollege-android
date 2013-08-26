@@ -30,16 +30,26 @@
         <activity
             android:name="nl.devapp.ictcollege.RoosterActivity"
             android:label="@string/title_activity_schedule" >
-		    <meta-data
-		       android:name="android.support.PARENT_ACTIVITY"
-		       android:value="nl.devapp.ictcollege.MainActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nl.devapp.ictcollege.MainActivity" />
         </activity>
         <activity
             android:name="nl.devapp.ictcollege.ClassActivity"
             android:label="@string/title_activity_first" >
-		    <meta-data
-		       android:name="android.support.PARENT_ACTIVITY"
-		       android:value="nl.devapp.ictcollege.MainActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nl.devapp.ictcollege.MainActivity" />
+
+            <intent-filter>
+                <action android:name="nl.devapp.ictcollege.ClassActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="nl.devapp.ictcollege.activities.SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 

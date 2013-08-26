@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pref_category_general" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="schedule.notification.enabled"
+            android:summaryOff="@string/pref_schedule_notification_off"
+            android:summaryOn="@string/pref_schedule_notification_on"
+            android:title="@string/pref_schedule_notification" />
+
+        <Preference android:title="@string/pref_select_class" >
+            <intent android:action="nl.devapp.ictcollege.ClassActivity" />
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
