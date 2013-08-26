@@ -33,8 +33,10 @@ public class MainActivity extends Activity {
 
 		if (!isOnline()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage("You're not online, please get online first.");
-			builder.setPositiveButton("OK",
+			builder.setMessage(this.getResources().getString(
+					R.string.net_error_not_online));
+			builder.setPositiveButton(
+					this.getResources().getString(R.string.dialog_button_okay),
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							MainActivity.this.finish();
@@ -55,8 +57,11 @@ public class MainActivity extends Activity {
 			return;
 		}
 
-		loadDialog = ProgressDialog.show(this, "Please wait",
-				"Loading and fetching data", true);
+		loadDialog = ProgressDialog.show(this,
+				this.getResources()
+						.getString(R.string.dialog_title_please_wait),
+				this.getResources()
+						.getString(R.string.dialog_text_loading_data), true);
 		loadDialog.dismiss();
 
 		final ListView l = (ListView) findViewById(R.id.listView1);
@@ -66,11 +71,20 @@ public class MainActivity extends Activity {
 		String[] values = null;
 
 		if (day != Calendar.SUNDAY && day != Calendar.SATURDAY) {
-			values = new String[] { "Huidige dag", "Maandag", "Dinsdag",
-					"Woensdag", "Donderdag", "Vrijdag" };
+			values = new String[] {
+					this.getResources().getString(R.string.day_today),
+					this.getResources().getString(R.string.day_monday),
+					this.getResources().getString(R.string.day_tuesday),
+					this.getResources().getString(R.string.day_wednesday),
+					this.getResources().getString(R.string.day_thursday),
+					this.getResources().getString(R.string.day_friday) };
 		} else {
-			values = new String[] { "Maandag", "Dinsdag", "Woensdag",
-					"Donderdag", "Vrijdag" };
+			values = new String[] {
+					this.getResources().getString(R.string.day_monday),
+					this.getResources().getString(R.string.day_tuesday),
+					this.getResources().getString(R.string.day_wednesday),
+					this.getResources().getString(R.string.day_thursday),
+					this.getResources().getString(R.string.day_friday) };
 		}
 
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -87,15 +101,20 @@ public class MainActivity extends Activity {
 
 				// Damn android; we can't use a Switch because of the String.
 
-				if (clickedDay.equals("Maandag"))
+				if (clickedDay.equals(getResources().getString(
+						R.string.day_monday)))
 					day = Calendar.MONDAY;
-				else if (clickedDay.equals("Dinsdag"))
+				else if (clickedDay.equals(getResources().getString(
+						R.string.day_tuesday)))
 					day = Calendar.TUESDAY;
-				else if (clickedDay.equals("Woensdag"))
+				else if (clickedDay.equals(getResources().getString(
+						R.string.day_wednesday)))
 					day = Calendar.WEDNESDAY;
-				else if (clickedDay.equals("Donderdag"))
+				else if (clickedDay.equals(getResources().getString(
+						R.string.day_thursday)))
 					day = Calendar.THURSDAY;
-				else if (clickedDay.equals("Vrijdag"))
+				else if (clickedDay.equals(getResources().getString(
+						R.string.day_friday)))
 					day = Calendar.FRIDAY;
 				else
 					day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);

@@ -30,7 +30,8 @@ class ClassTask extends AsyncTask<ClassActivity, Void, Elements> {
 			activity.loadDialog.dismiss();
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			builder.setMessage("We're unable to parse the school website, this normally means that you don't have an working internet connection.");
+			builder.setMessage(this.activity.getResources().getString(
+					R.string.net_error_cant_read_content));
 			builder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
@@ -50,7 +51,8 @@ class ClassTask extends AsyncTask<ClassActivity, Void, Elements> {
 
 		try {
 			Document doc = Jsoup.connect(
-					"http://interaa.nl/rooster/35/menu.htm").get();
+					this.activity.getResources().getString(
+							R.string.server_classurl)).get();
 			return doc.select("select[name=menu2] option:not([selected])");
 
 		} catch (Exception e) {

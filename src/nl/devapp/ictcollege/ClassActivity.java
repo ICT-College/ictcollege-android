@@ -36,8 +36,11 @@ public class ClassActivity extends Activity {
 		if (fastSave.getString("class", null) != null)
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		loadDialog = ProgressDialog.show(this, "Please wait",
-				"Loading and fetching data", true);
+		loadDialog = ProgressDialog.show(this,
+				this.getResources()
+						.getString(R.string.dialog_title_please_wait),
+				this.getResources()
+						.getString(R.string.dialog_text_loading_data), true);
 
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, classList);

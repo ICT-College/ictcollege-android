@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name" untranslatable="true">ICT College</string>
+    
+    <string name="server_classurl" untranslatable="true">http://interaa.nl/rooster/35/menu.htm</string>
+    <string name="server_baseurl" untranslatable="true">http://ictcollege.wouter0100.nl</string>
+    
+</resources>

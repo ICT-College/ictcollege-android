@@ -30,7 +30,8 @@ class RoosterTask extends AsyncTask<Void, Void, Element> {
 			fastEdit.commit();
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			builder.setMessage("We're unable to reach our server, this normally means that you don't have an working internet connection.");
+			builder.setMessage(activity.getResources().getString(
+					R.string.net_error_cant_reach_server));
 			builder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
@@ -48,7 +49,7 @@ class RoosterTask extends AsyncTask<Void, Void, Element> {
 
 		try {
 			Document doc = Jsoup.connect(
-					"http://ictcollege.wouter0100.nl/?week=35&class="
+					this.activity.getResources().getString(R.string.server_baseurl) + "/?week=35&class="
 							+ activity.fastSave.getString("class", null)).get();
 
 			return doc.select("body").first();

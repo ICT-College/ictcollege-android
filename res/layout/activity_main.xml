@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/listView1"
-        android:text="Selecteer onderstaand een dag waar je je rooster van wilt bekijken." />
+        android:text="@string/day_activity_select_class" />
 
     <ListView
         android:id="@+id/listView1"
@@ -23,7 +23,6 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView1"
         tools:listitem="@android:layout/simple_list_item_1" >
-
     </ListView>
 
     <CheckBox
@@ -32,6 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/listView1"
         android:layout_alignParentBottom="true"
-        android:text="Rooster notificatie" />
+        android:text="@string/pref_schedule_notification" />
 
 </RelativeLayout>
