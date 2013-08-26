@@ -2,6 +2,7 @@ package nl.devapp.ictcollege;
 
 import java.util.Calendar;
 
+import nl.devapp.ictcollege.activities.SettingsActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -157,9 +158,13 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.action_settings:
+		case R.id.action_select_class:
 			Intent launchNewIntent = new Intent(this, ClassActivity.class);
 			startActivityForResult(launchNewIntent, 0);
+			return true;
+		case R.id.action_open_settings:
+			Intent settingsIntent = new Intent(this, SettingsActivity.class);
+			startActivity(settingsIntent);
 			return true;
 		}
 		return false;
