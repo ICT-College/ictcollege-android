@@ -29,7 +29,7 @@
         </activity>
         <activity
             android:name="nl.devapp.ictcollege.RoosterActivity"
-            android:label="@string/title_activity_rooster" >
+            android:label="@string/title_activity_schedule" >
 		    <meta-data
 		       android:name="android.support.PARENT_ACTIVITY"
 		       android:value="nl.devapp.ictcollege.MainActivity" />

@@ -4,6 +4,10 @@
     <!-- General menu items -->
     <string name="action_select_class">Select class</string>
 
+    <!-- Activity titles -->
+    <string name="title_activity_schedule">Schedule</string>
+    <string name="title_activity_first">Select class</string>
+
     <!-- Day activity -->
     <string name="day_activity_select_class">Tap on the day you want to see the schedule of.</string>
 
@@ -30,8 +34,6 @@
     <string name="dialog_button_okay">Okay!</string>
 
     <!-- Other stuff -->
-    <string name="title_activity_rooster">Rooster Activity</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_first">FirstActivity</string>
 
 </resources>
