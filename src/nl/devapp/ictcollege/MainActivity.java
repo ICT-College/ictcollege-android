@@ -120,19 +120,16 @@ public class MainActivity extends Activity {
 				else
 					day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
-				System.out.println(day);
+				int currentTime = (int) (System.currentTimeMillis() / 1000L);
 
 				if (fastSave.getString("cacheRooster", null) == null
-						|| fastSave.getInt("cacheTime",
-								(int) (System.currentTimeMillis() / 1000L)) != (((int) (System
-								.currentTimeMillis() / 1000L)) - 500)) {
+						|| fastSave.getInt("cacheTime", currentTime) <= ((currentTime) - 100)) {
 					loadDialog.show();
 
-					RoosterTask roosterTask = new RoosterTask(MainActivity.this);
+					RoosterTask roosterTask = new RoosterTask(
+							MainActivity.this, day);
 					roosterTask.execute();
-				}
-
-				if (fastSave.getString("cacheRooster", null) != null) {
+				} else {
 					Intent i = new Intent(MainActivity.this,
 							RoosterActivity.class);
 					i.putExtra("day", day);
@@ -140,9 +137,6 @@ public class MainActivity extends Activity {
 							fastSave.getString("cacheRooster", null));
 
 					startActivity(i);
-				} else {
-					Toast.makeText(MainActivity.this, "Unknow cache",
-							Toast.LENGTH_LONG).show();
 				}
 			}
 		});

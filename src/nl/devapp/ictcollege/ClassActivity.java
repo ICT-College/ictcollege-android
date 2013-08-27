@@ -2,6 +2,8 @@ package nl.devapp.ictcollege;
 
 import java.util.ArrayList;
 
+import nl.devapp.ictcollege.R;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;

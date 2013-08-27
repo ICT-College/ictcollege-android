@@ -3,6 +3,7 @@ package nl.devapp.ictcollege;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.devapp.ictcollege.R;
 import nl.devapp.ictcollege.adapters.ScheduleAdapter;
 
 import org.json.JSONException;
