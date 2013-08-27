@@ -17,4 +17,15 @@
 
     <string name="dialog_button_okay">Oke!</string>
 
-    </resources>
+    <string name="action_open_settings">Instellingen</string>
+
+    <string name="title_activity_schedule">Rooster</string>
+    <string name="title_activity_first">Selecteer klas</string>
+    <string name="title_activity_settings">Instellingen</string>
+
+    <string name="pref_category_general">Algemeen</string>
+    <string name="pref_schedule_notification_on">Rooster meldingen staan aan</string>
+    <string name="pref_schedule_notification_off">Rooster meldingen staan uit</string>
+    <string name="hello_world">Hallo wereld!</string>
+
+</resources>
