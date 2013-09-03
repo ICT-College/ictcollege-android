@@ -1,5 +1,7 @@
 package nl.devapp.ictcollege;
 
+import java.util.Calendar;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -63,7 +65,7 @@ class RoosterTask extends AsyncTask<Void, Void, Element> {
 		
 		try {
 			Document doc = Jsoup.connect(
-					this.activity.getResources().getString(R.string.server_baseurl) + "/?week=35&class="
+					this.activity.getResources().getString(R.string.server_baseurl) + "/?week=" + Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) + "&class="
 							+ activity.fastSave.getString("class", null)).get();
 
 			return doc.select("body").first();
