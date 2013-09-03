@@ -1,6 +1,8 @@
 package nl.devapp.ictcollege;
 
 
+import java.util.Calendar;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,7 +23,7 @@ class ClassTask extends AsyncTask<ClassActivity, Void, Elements> {
 	@Override
 	protected void onPostExecute(Elements results) {
 		super.onPostExecute(results);
-
+		
 		if (results != null) {
 			for (Element result : results) {
 				activity.classList.add(result.text());
@@ -53,7 +55,7 @@ class ClassTask extends AsyncTask<ClassActivity, Void, Elements> {
 		try {
 			Document doc = Jsoup.connect(
 					this.activity.getResources().getString(
-							R.string.server_classurl)).get();
+							R.string.server_classurl)+ "?week=" + Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)).get();
 			return doc.select("select[name=menu2] option:not([selected])");
 
 		} catch (Exception e) {

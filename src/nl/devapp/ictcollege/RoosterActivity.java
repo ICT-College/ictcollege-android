@@ -3,7 +3,6 @@ package nl.devapp.ictcollege;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.devapp.ictcollege.R;
 import nl.devapp.ictcollege.adapters.ScheduleAdapter;
 
 import org.json.JSONException;
@@ -34,7 +33,9 @@ public class RoosterActivity extends ListActivity {
 		new ListLoader(this, intent.getExtras().getString("rooster"), intent
 				.getExtras().getInt("day")).execute();
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB){
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 	}
 
 	@Override
