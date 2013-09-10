@@ -28,4 +28,9 @@
     <string name="pref_schedule_notification_off">Rooster meldingen staan uit</string>
     <string name="hello_world">Hallo wereld!</string>
 
-</resources>
+<string name="net_error_not_online">Je bent niet online! Kom eerst online!</string>
+    <string name="net_error_cant_read_content">De schoolwebsite kan niet worden bereikt, wat waarschijnlijk betekend dat je internetverbinding niet werkt.</string>
+    <string name="net_error_cant_reach_server">De server kan niet worden bereikt, wat waarschijnlijk betekend dat je internetverbinding niet werkt.</string>
+
+    <string name="dialog_title_please_wait">Wacht even alstublieft</string>
+    </resources>
