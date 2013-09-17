@@ -1,5 +1,11 @@
+local.properties
+
 # Android generated files
 gen
 
 # Eclipse build files
 bin
+
+# Gradle build files
+build
+.gradle
