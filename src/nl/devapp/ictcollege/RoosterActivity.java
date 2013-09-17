@@ -33,7 +33,7 @@ public class RoosterActivity extends ListActivity {
 		new ListLoader(this, intent.getExtras().getString("rooster"), intent
 				.getExtras().getInt("day")).execute();
 
-		if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB){
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 	}
@@ -69,17 +69,27 @@ public class RoosterActivity extends ListActivity {
 				lessons = new JSONObject(this.scheduleJson).getJSONObject(
 						"data").getJSONObject(Integer.toString(this.day));
 
-				for (int i = 1; i <= lessons.length(); i++) {
-					JSONObject lesson = lessons.getJSONObject(i + "");
+				for (int i = 1; i <= 8; i++) {
+					JSONObject lesson;
+
+					try {
+						lesson = lessons.getJSONObject(Integer.toString(i));
+					} catch (JSONException e) {
+						continue;
+					}
+
+					if (lesson == null)
+						continue;
 
 					Schedule item = new Schedule();
+					item.setHour(i);
 					item.setLesson(lesson.getString("lesson"));
 					item.setTeacher(lesson.getString("teacher"));
 					item.setClassRoom(lesson.getString("classroom"));
 
 					list.add(item);
 				}
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

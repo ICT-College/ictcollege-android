@@ -50,7 +50,7 @@ public class ScheduleAdapter extends BaseAdapter {
 		TextView teacher = (TextView) view.findViewById(R.id.item_teacher);
 		TextView classRoom = (TextView) view.findViewById(R.id.item_class_room);
 
-		number.setText(Integer.toString(position + 1));
+		number.setText(Integer.toString(item.getHour()));
 		lesson.setText(item.getLesson());
 		teacher.setText(item.getTeacher());
 		classRoom.setText(item.getClassRoom());

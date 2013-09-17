@@ -62,6 +62,7 @@ public class ClassActivity extends Activity {
 
 						SharedPreferences.Editor editor = fastSave.edit();
 						editor.putString("class", classNumber);
+						editor.putString("cacheRooster", null);
 						editor.commit();
 
 						Intent i = new Intent(ClassActivity.this,
