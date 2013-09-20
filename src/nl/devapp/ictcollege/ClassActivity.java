@@ -2,8 +2,6 @@ package nl.devapp.ictcollege;
 
 import java.util.ArrayList;
 
-import nl.devapp.ictcollege.R;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -35,7 +33,8 @@ public class ClassActivity extends Activity {
 
 		fastSave = this.getSharedPreferences("global", Context.MODE_PRIVATE);
 
-		if (fastSave.getString("class", null) != null)
+		if (fastSave.getString("class", null) != null
+				&& android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		loadDialog = ProgressDialog.show(this,
