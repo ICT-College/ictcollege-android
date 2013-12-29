@@ -33,4 +33,5 @@
     <string name="net_error_cant_reach_server">De server kan niet worden bereikt, wat waarschijnlijk betekend dat je internetverbinding niet werkt.</string>
 
     <string name="dialog_title_please_wait">Wacht even alstublieft</string>
+    <string name="dialog_text_loading_data">Aan het laden en data aan het binnenhalen</string>
     </resources>
