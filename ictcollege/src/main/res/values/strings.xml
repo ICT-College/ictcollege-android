@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General menu items -->
+    <string name="action_select_class">Select class</string>
+    <string name="action_open_settings">Settings</string>
+
+    <!-- Activity titles -->
+    <string name="title_activity_schedule">Schedule</string>
+    <string name="title_activity_first">Select class</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Day activity -->
+    <string name="day_activity_select_class">Tap on the day you want to see the schedule of.</string>
+
+    <!-- Preferences -->
+    <string name="pref_category_general">General</string>
+    <string name="pref_schedule_notification">Schedule notification</string>
+    <string name="pref_schedule_notification_on">Schedule notification is enabled</string>
+    <string name="pref_schedule_notification_off">Schedule notification is disabled</string>
+    <string name="pref_select_class">Select your class</string>
+
+    <!-- Networking specific strings -->
+    <string name="net_error_not_online">You\'re not online, please get online first.</string>
+    <string name="net_error_cant_read_content">We\'re unable to parse the school website, this normally means that you don\'t have an working internet connection.</string>
+    <string name="net_error_cant_reach_server">We\'re unable to reach our server, this normally means that you don\'t have an working internet connection.</string>
+
+    <!-- Date and time strings -->
+    <string name="day_today">Today</string>
+    <string name="day_monday">Monday</string>
+    <string name="day_tuesday">Tuesday</string>
+    <string name="day_wednesday">Wednesday</string>
+    <string name="day_thursday">Thursday</string>
+    <string name="day_friday">Friday</string>
+
+    <!-- Dialog -->
+    <string name="dialog_title_please_wait">Please wait</string>
+    <string name="dialog_text_loading_data">Loading and fetching data</string>
+    <string name="dialog_button_okay">Okay!</string>
+
+    <!-- Other stuff -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+</resources>

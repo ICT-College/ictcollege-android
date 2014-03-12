@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="nl.devapp.ictcollege.MainActivity" >
+    <item android:id="@+id/action_select_class"
+        android:title="@string/action_select_class" />
+
+    <item android:id="@+id/action_open_settings"
+        android:title="@string/action_open_settings" />
+</menu>
