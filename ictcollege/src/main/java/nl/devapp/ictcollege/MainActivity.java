@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
-    private String[] test = {"Value1","Value2"};
+    private String[] aDays = { "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag" };
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -35,25 +35,17 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.row_drawer, test));
+                R.layout.row_drawer, aDays));
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawerLayout,
-                R.drawable.ic_drawer,
-                R.string.drawer_open,
-                R.string.drawer_close
-        ) {
-            /** Called when a drawer has settled in a completely closed state. */
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 setTitle("Maandag");
             }
 
-            /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 setTitle(R.string.app_name);
@@ -84,16 +76,12 @@ public class MainActivity extends ActionBarActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
+
+            Toast.makeText(getApplicationContext(), "Not coded + " + id + " + " + position, Toast.LENGTH_LONG).show();
+
+            mDrawerList.setItemChecked(position, true);
+            mDrawerLayout.closeDrawer(mDrawerList);
         }
-    }
-
-    private void selectItem(int position) {
-
-        Toast.makeText(getApplicationContext(), "Not coded", Toast.LENGTH_LONG).show();
-
-        mDrawerList.setItemChecked(position, true);
-        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     @Override
