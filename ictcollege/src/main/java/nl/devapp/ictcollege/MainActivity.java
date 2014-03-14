@@ -1,119 +1,206 @@
 package nl.devapp.ictcollege;
 
-import android.annotation.TargetApi;
-import android.app.FragmentManager;
-import android.content.res.Configuration;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.Window;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
 
-public class MainActivity extends ActionBarActivity {
+import nl.devapp.ictcollege.adapters.MainPagerAdapter;
+import nl.devapp.ictcollege.fragments.ScheduleFragment;
+import nl.devapp.ictcollege.models.Schedule;
+import nl.devapp.ictcollege.tasks.ScheduleTask;
 
-    private String[] aDays = { "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag" };
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+/*
+--- TargetType ---
+0 = Null/nothing
+1 = Class
+2 = Teacher
+
+--- Variables ---
+weekDay = Day of the week (1 = monday, 5 = friday)
+dayId = Index ID of day (0 = monday, 4 = friday)
+dayName = Name of the day
+currentDay = Current selected WeekDay.
+ */
+
+public class MainActivity
+        extends ActionBarActivity implements ActionBar.TabListener {
+
+    private SharedPreferences preferences;
+
+    public String[] days = {"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag"};
+    private int[] dayIds = {2, 3, 4, 5, 6};
+
+    private int currentDay;
+
+    private MainPagerAdapter mSectionsPagerAdapter;
+    public ViewPager mViewPager;
+
+    public ArrayList<Schedule> scheduleArray = new ArrayList<Schedule>();
+
+    private Calendar calendar = Calendar.getInstance();
+
+    public File cacheRoosterJsonFile;
+    public File cacheRoosterTimeFile;
+
+    private Menu menu;
+    private boolean isLoading = false;
 
     @Override
-    @TargetApi(14)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         setContentView(R.layout.activity_main);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        setProgressBarIndeterminate(true);
 
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.row_drawer, aDays));
+        preferences = getSharedPreferences("global", Context.MODE_PRIVATE);
+        cacheRoosterJsonFile = new File(getApplicationContext().getCacheDir(), "rooster_json.cache");
+        cacheRoosterTimeFile = new File(getApplicationContext().getCacheDir(), "rooster_time.cache");
 
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        if (preferences.getInt("targetType", 0) == 0 || preferences.getInt("targetId", 0) == 0) {
+            startActivity(new Intent(this, SelectActivity.class));
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+            this.finish();
 
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                setTitle("Maandag");
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                setTitle(R.string.app_name);
-            }
-        };
-
-        // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-
-            Toast.makeText(getApplicationContext(), "Not coded + " + id + " + " + position, Toast.LENGTH_LONG).show();
-
-            mDrawerList.setItemChecked(position, true);
-            mDrawerLayout.closeDrawer(mDrawerList);
+            return;
         }
-    }
 
-    @Override
-    @TargetApi(11)
-    public void setTitle(CharSequence title) {
-        getActionBar().setTitle(title);
+        currentDay = calendar.get(Calendar.DAY_OF_WEEK);
+
+        Log.d("MainActivity", "currentDay: " + currentDay + ", dayId: " + getDayIdByWeekDay(currentDay));
+
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        mSectionsPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
+
+        mViewPager = (ViewPager) findViewById(R.id.schedule_pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                getSupportActionBar().setSelectedNavigationItem(position);
+            }
+        });
+
+        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+            getSupportActionBar().addTab(
+                    getSupportActionBar().newTab()
+                            .setText(mSectionsPagerAdapter.getPageTitle(i))
+                            .setTabListener(this)
+            );
+        }
+
+        mViewPager.setCurrentItem(getDayIdByWeekDay(currentDay), true);
+
+        getSupportActionBar().setTitle(getDayNameByWeekDay(currentDay));
+
+        ScheduleTask scheduleTask = new ScheduleTask(this);
+        scheduleTask.execute();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
+
+        menu.getItem(0).setVisible(!isLoading);
 
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
         switch (item.getItemId()) {
-            case R.id.action_select_class:
-                Toast.makeText(getApplicationContext(), "Not coded", Toast.LENGTH_LONG).show();
+            case R.id.action_select:
+                startActivity(new Intent(this, SelectActivity.class));
                 return true;
-            case R.id.action_open_settings:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
+            case R.id.action_refresh:
+                cacheRoosterJsonFile.delete();
+                cacheRoosterTimeFile.delete();
+
+                ScheduleTask scheduleTask = new ScheduleTask(this);
+                scheduleTask.execute();
                 return true;
+//            case R.id.action_open_settings:
+//                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+//                startActivity(settingsIntent);
+//                return true;
         }
         return false;
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        mViewPager.setCurrentItem(tab.getPosition());
+
+        currentDay = getWeekDayByDayId(tab.getPosition());
+        getSupportActionBar().setTitle(getDayNameByWeekDay(currentDay));
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    private int getDayIdByWeekDay(int weekDay) {
+        for (int i = 0; i < dayIds.length; i++) {
+            if (dayIds[i] == weekDay) {
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
+    public int getWeekDayByDayId(int dayId) {
+        return dayIds[dayId];
+    }
+
+    private String getDayNameByWeekDay(int weekDay) {
+        return getDayNameByDayId(getDayIdByWeekDay(weekDay));
+    }
+
+    public String getDayNameByDayId(int dayId) {
+        return days[dayId];
+    }
+
+    public void setLoading(final Boolean type) {
+        if (!isFinishing()) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setProgressBarIndeterminateVisibility(type);
+
+                    isLoading = type;
+
+                    if(menu != null)
+                        menu.getItem(0).setVisible(!type);
+                }
+            });
+        }
     }
 
 }

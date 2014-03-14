@@ -1,13 +1,19 @@
 <resources>
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
         <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="android:actionBarTabTextStyle">@style/ActionBarTab</item>
 
         <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="actionBarTabTextStyle">@style/ActionBarTab</item>
     </style>
 
     <style name="ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/actionbar_background</item>
 
         <item name="background">@drawable/actionbar_background</item>
+    </style>
+
+    <style name="ActionBarTab" parent="@style/Widget.AppCompat.Base.ActionBar.TabText">
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 </resources>
