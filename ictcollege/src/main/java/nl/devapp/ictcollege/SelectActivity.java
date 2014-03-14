@@ -3,9 +3,6 @@ package nl.devapp.ictcollege;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -13,10 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.Window;
 
-import java.util.Locale;
-
 import nl.devapp.ictcollege.adapters.SelectPagerAdapter;
-import nl.devapp.ictcollege.fragments.SelectFragment;
 
 
 public class SelectActivity extends ActionBarActivity implements ActionBar.TabListener {

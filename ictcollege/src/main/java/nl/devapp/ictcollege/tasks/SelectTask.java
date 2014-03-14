@@ -1,7 +1,5 @@
 package nl.devapp.ictcollege.tasks;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -55,7 +53,7 @@ public class SelectTask extends AsyncTask<SelectFragment, Void, JsonObject> {
 
             Log.d("SelectTask", "Successfully parsed Target data for " + targetType + ".");
         } else {
-            if(fragment.getActivity() != null) {
+            if (fragment.getActivity() != null) {
                 Toast.makeText(fragment.getActivity().getApplicationContext(), fragment.getResources().getString(
                         R.string.net_error_cant_read_content), Toast.LENGTH_LONG).show();
             }

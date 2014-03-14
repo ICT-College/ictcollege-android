@@ -1,8 +1,6 @@
 package nl.devapp.ictcollege.tasks;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -14,7 +12,6 @@ import com.google.gson.JsonParser;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -116,7 +113,7 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
     @Override
     public JsonObject doInBackground(ScheduleFragment... arg) {
         try {
-            if(!mainActivity.cacheRoosterJsonFile.exists()) {
+            if (!mainActivity.cacheRoosterJsonFile.exists()) {
                 mainActivity.setLoading(true);
 
                 int departmentId = mainActivity.getResources().getInteger(R.integer.department_id);
@@ -178,7 +175,7 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
                 } else {
                     throw new IllegalStateException("HTTP response while fetching for Target data (): " + requestConnection.getResponseCode());
                 }
-            }else{
+            } else {
                 return new JsonParser().parse(new BufferedReader(new FileReader(mainActivity.cacheRoosterJsonFile.getAbsoluteFile())).readLine()).getAsJsonObject();
             }
         } catch (Exception e) {

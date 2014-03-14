@@ -36,7 +36,7 @@ public class SelectFragment extends Fragment {
     public File cacheRoosterTimeFile;
 
     @Override
-    public void onCreate(Bundle savedNogwat){
+    public void onCreate(Bundle savedNogwat) {
         super.onCreate(savedNogwat);
 
         cacheRoosterJsonFile = new File(getActivity().getApplicationContext().getCacheDir(), "rooster_json.cache");

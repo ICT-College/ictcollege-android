@@ -14,7 +14,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import nl.devapp.ictcollege.MainActivity;
@@ -65,7 +64,7 @@ public class ScheduleFragment extends Fragment {
 
             lastSyncView.setText("Last Sync: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(unixTimestamp)));
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
