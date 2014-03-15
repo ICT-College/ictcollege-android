@@ -109,7 +109,7 @@ public class MainActivity
 
         getSupportActionBar().setTitle(getDayNameByWeekDay(currentDay));
 
-        ScheduleTask scheduleTask = new ScheduleTask(this);
+        ScheduleTask scheduleTask = new ScheduleTask(this, false);
         scheduleTask.execute();
     }
 
@@ -130,10 +130,7 @@ public class MainActivity
                 startActivity(new Intent(this, SelectActivity.class));
                 return true;
             case R.id.action_refresh:
-                cacheRoosterJsonFile.delete();
-                cacheRoosterTimeFile.delete();
-
-                ScheduleTask scheduleTask = new ScheduleTask(this);
+                ScheduleTask scheduleTask = new ScheduleTask(this, true);
                 scheduleTask.execute();
                 return true;
 //            case R.id.action_open_settings:

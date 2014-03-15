@@ -1,1 +1,3 @@
 /build
+signing.gradle
+keystore.key
