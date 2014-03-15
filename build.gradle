@@ -1,50 +1,16 @@
- repositories {
-            mavenCentral()
-        } 
-
-configurations {
-    provided
-}
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-       repositories {
-            mavenCentral()
-        } 
-        dependencies {
-            classpath 'com.android.tools.build:gradle:0.4+'
-        }
+    repositories {
+        mavenCentral()
     }
-    apply plugin: 'android'
-
-
-dependencies {
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0+@aar'
-    compile 'com.android.support:support-v4:13.0.+'
-    compile 'org.jsoup:jsoup:1.7.2'
-}
-
-android {
-    buildToolsVersion "17.0"
-    compileSdkVersion = 'android-17'
-
-    defaultConfig {
-        minSdkVersion 7
-        targetSdkVersion 17
-    }
-
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            res.srcDirs = ['res']
-        }
-    }
-    applicationVariants.all {
-        variant -> variant.javaCompile.classpath += configurations.provided
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.9.+'
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.6'
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 }

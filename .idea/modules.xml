@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ICTCollege.iml" filepath="$PROJECT_DIR$/ICTCollege.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ict-college-android.iml" filepath="$PROJECT_DIR$/ict-college-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ictcollege/ictcollege.iml" filepath="$PROJECT_DIR$/ictcollege/ictcollege.iml" />
+    </modules>
+  </component>
+</project>
+

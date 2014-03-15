@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" untranslatable="true">ICT College</string>
+
+    <string name="api_url" untranslatable="true">http://api.ictcollege.eu</string>
+
+    <integer name="school_id" untranslatable="true">1</integer>
+    <integer name="department_id" untranslatable="true">1</integer>
+
+</resources>
