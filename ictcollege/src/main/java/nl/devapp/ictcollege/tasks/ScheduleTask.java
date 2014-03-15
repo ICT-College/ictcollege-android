@@ -32,11 +32,13 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
 
     private MainActivity mainActivity;
     private SharedPreferences preferences;
+    private boolean forceSync = false;
 
     public ArrayList<String> hours = new ArrayList<String>();
 
-    public ScheduleTask(MainActivity mainActivity) {
+    public ScheduleTask(MainActivity mainActivity, boolean forceSync) {
         this.mainActivity = mainActivity;
+        this.forceSync = forceSync;
 
         this.preferences = mainActivity.getSharedPreferences("global", Context.MODE_PRIVATE);
 
@@ -113,9 +115,9 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
     @Override
     public JsonObject doInBackground(ScheduleFragment... arg) {
         try {
-            if (!mainActivity.cacheRoosterJsonFile.exists()) {
-                mainActivity.setLoading(true);
+            mainActivity.setLoading(true);
 
+            if (!mainActivity.cacheRoosterJsonFile.exists() || forceSync) {
                 int departmentId = mainActivity.getResources().getInteger(R.integer.department_id);
                 int schoolId = mainActivity.getResources().getInteger(R.integer.school_id);
                 String apiUrl = mainActivity.getResources().getString(R.string.api_url);
@@ -170,15 +172,17 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
                     writer.close();
 
                     mainActivity.setLoading(false);
-
                     return new JsonParser().parse(response).getAsJsonObject();
                 } else {
                     throw new IllegalStateException("HTTP response while fetching for Target data (): " + requestConnection.getResponseCode());
                 }
             } else {
+                mainActivity.setLoading(false);
                 return new JsonParser().parse(new BufferedReader(new FileReader(mainActivity.cacheRoosterJsonFile.getAbsoluteFile())).readLine()).getAsJsonObject();
             }
         } catch (Exception e) {
+            mainActivity.setLoading(false);
+
             Log.e("ICT College", "Whut?", e);
             return null;
         }
