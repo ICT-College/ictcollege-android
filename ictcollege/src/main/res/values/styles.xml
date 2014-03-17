@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
         <item tools:targetApi="11" name="android:actionBarStyle">@style/ActionBar</item>
         <item tools:targetApi="11" name="android:actionBarTabTextStyle">@style/ActionBarTab</item>

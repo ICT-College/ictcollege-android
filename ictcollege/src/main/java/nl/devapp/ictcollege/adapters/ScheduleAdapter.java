@@ -2,7 +2,6 @@ package nl.devapp.ictcollege.adapters;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +46,7 @@ public class ScheduleAdapter extends BaseAdapter {
 
     @Override
     public Schedule getItem(int position) {
-        Log.d("ScheduleAdapter", "Get position: " + position + ", but this.items contains: " + this.items.size());
+        //LOG//Log.d("ScheduleAdapter", "Get position: " + position + ", but this.items contains: " + this.items.size());
         return this.items.get(position);
     }
 
@@ -62,7 +61,7 @@ public class ScheduleAdapter extends BaseAdapter {
 
         final Schedule item = this.getItem(position);
 
-        Log.d("ScheduleAdapter", "GetView position: " + position + ", but this.items contains: " + this.items.size() + ", progressbar: " + item.isProgressbar());
+        //LOG//Log.d("ScheduleAdapter", "GetView position: " + position + ", but this.items contains: " + this.items.size() + ", progressbar: " + item.isProgressbar());
 
         if (item.isProgressbar()) {
             view = this.inflater.inflate(R.layout.row_schedule_progress, null);
@@ -80,7 +79,7 @@ public class ScheduleAdapter extends BaseAdapter {
                     handler.post(new Runnable() {
                         public void run() {
                             progessBar.setProgress((int) (System.currentTimeMillis() - item.getStart()));
-                            Log.d("ScheduleAdapter", "Progess: " + (System.currentTimeMillis() - item.getStart()) + ", currentProgess: " + progessBar.getProgress() + ", max: " + item.getMax() + ", currentMax: " + progessBar.getMax());
+                            //LOG//Log.d("ScheduleAdapter", "Progess: " + (System.currentTimeMillis() - item.getStart()) + ", currentProgess: " + progessBar.getProgress() + ", max: " + item.getMax() + ", currentMax: " + progessBar.getMax());
                         }
                     });
                 }

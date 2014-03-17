@@ -36,6 +36,8 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
 
     public ArrayList<String> hours = new ArrayList<String>();
 
+    private boolean hasProgessbar = false;
+
     public ScheduleTask(MainActivity mainActivity, boolean forceSync) {
         this.mainActivity = mainActivity;
         this.forceSync = forceSync;
@@ -60,9 +62,11 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
         if (results != null) {
 
             try {
-                Log.d("ScheduleTask", "Starting parsing Rooster data....");
+                //LOG//Log.d("ScheduleTask", "Starting parsing Rooster data....");
 
                 JsonArray eventArray = results.getAsJsonArray("events");
+
+                mainActivity.scheduleArray.clear();
 
                 for (int i = 0; i < eventArray.size(); i++) {
                     JsonObject targetObject = eventArray.get(i).getAsJsonObject();
@@ -89,7 +93,7 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
                     long stopMillis = stopCalander.getTimeInMillis();
                     long currentMillis = System.currentTimeMillis();
 
-                    Log.d("ScheduleTask", "Id: " + eventId + ", classroom: " + eventClassroom + ", subject: " + eventSubject + ", to: " + eventTo + ", day: " + eventDay);
+                    //LOG//Log.d("ScheduleTask", "Id: " + eventId + ", classroom: " + eventClassroom + ", subject: " + eventSubject + ", to: " + eventTo + ", day: " + eventDay);
 
                     Schedule schedule = new Schedule();
 
@@ -101,8 +105,8 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
 
                     mainActivity.scheduleArray.add(schedule);
 
-                    if (startMillis < currentMillis && currentMillis < stopMillis) {
-                        Log.d("ScheduleTask", "Including Progessbar!");
+                    if (!hasProgessbar && startMillis < currentMillis && currentMillis < stopMillis) {
+                        //LOG//Log.d("ScheduleTask", "Including Progessbar!");
 
                         Schedule progressBar = new Schedule();
 
@@ -112,12 +116,14 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
                         progressBar.setStart(startMillis);
 
                         mainActivity.scheduleArray.add(progressBar);
+
+                        hasProgessbar = true;
                     }
                 }
 
                 mainActivity.mViewPager.getAdapter().notifyDataSetChanged();
 
-                Log.d("ScheduleTask", "Successfully parsed Rooster data.");
+                //LOG//Log.d("ScheduleTask", "Successfully parsed Rooster data.");
             } catch (Exception e) {
                 Log.e("ScheduleTask", "Error while loading data..", e);
             }
@@ -177,7 +183,7 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
                     connectionReader.close();
                     requestConnection.disconnect();
 
-                    Log.d("ICT College", response);
+                    //LOG//Log.d("ICT College", response);
 
                     mainActivity.cacheRoosterJsonFile.createNewFile();
 

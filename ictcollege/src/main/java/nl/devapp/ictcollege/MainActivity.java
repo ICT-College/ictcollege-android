@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -16,6 +16,8 @@ import android.view.Window;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import nl.devapp.ictcollege.adapters.MainPagerAdapter;
 import nl.devapp.ictcollege.models.Schedule;
@@ -81,7 +83,7 @@ public class MainActivity
 
         currentDay = calendar.get(Calendar.DAY_OF_WEEK);
 
-        Log.d("MainActivity", "currentDay: " + currentDay + ", dayId: " + getDayIdByWeekDay(currentDay));
+        //LOG//Log.d("MainActivity", "currentDay: " + currentDay + ", dayId: " + getDayIdByWeekDay(currentDay));
 
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -105,12 +107,32 @@ public class MainActivity
             );
         }
 
-        mViewPager.setCurrentItem(getDayIdByWeekDay(currentDay), true);
+        mViewPager.setCurrentItem(getDayIdByWeekDay(currentDay));
 
         getSupportActionBar().setTitle(getDayNameByWeekDay(currentDay));
 
         ScheduleTask scheduleTask = new ScheduleTask(this, false);
         scheduleTask.execute();
+
+        final Handler handler = new Handler();
+        final MainActivity activity = this;
+        Timer timer = new Timer();
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        if (!isLoading) {
+                            ScheduleTask scheduleTask = new ScheduleTask(activity, false);
+                            scheduleTask.execute();
+
+                            //LOG//Log.d("MainActivity Timer", "Timer passed, reloading..");
+                        }
+                    }
+                });
+            }
+        }, 30000, 30000);
     }
 
     @Override

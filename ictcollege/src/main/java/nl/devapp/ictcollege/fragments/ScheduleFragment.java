@@ -3,7 +3,6 @@ package nl.devapp.ictcollege.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,23 +38,28 @@ public class ScheduleFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         try {
-            if (scheduleArray.isEmpty()) {
-                ArrayList<Schedule> tempScheduleArray = activity.scheduleArray;
-
-                Log.d("ScheduleFragment", "Fragment of day: " + weekDay);
-
-                for (int i = 0; i < tempScheduleArray.size(); i++) {
-                    Log.d("ScheduleFragment", "Tester day: " + tempScheduleArray.get(i).getWeekDay());
-
-                    if (tempScheduleArray.get(i).getWeekDay() == weekDay) {
-                        scheduleArray.add(tempScheduleArray.get(i));
-                    }
-                }
-            }
+            //LOG//Log.d("ScheduleFragment", "Fragment of day: " + weekDay);
 
             scheduleList = (ListView) rootView.findViewById(R.id.rooster_list);
             scheduleList.setAdapter(scheduleAdapter);
             scheduleList.addFooterView(new View(rootView.getContext()), null, true);
+
+            scheduleArray.clear();
+
+            scheduleAdapter.notifyDataSetChanged();
+
+            for (int i = 0; i < activity.scheduleArray.size(); i++) {
+
+                Schedule item = activity.scheduleArray.get(i);
+
+                //LOG//Log.d("ScheduleFragment", "Tester day: " + item.getWeekDay() + ", hour: " + item.getHour());
+
+                if (item.getWeekDay() == weekDay) {
+                    //LOG//Log.d("ScheduleFragment", "Add day: " + item.getWeekDay() + ", hour: " + item.getHour());
+
+                    scheduleArray.add(item);
+                }
+            }
 
             scheduleAdapter.notifyDataSetChanged();
 
