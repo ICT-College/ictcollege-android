@@ -3,7 +3,6 @@ package nl.devapp.ictcollege.adapters;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
 import nl.devapp.ictcollege.MainActivity;
 import nl.devapp.ictcollege.fragments.ScheduleFragment;
@@ -20,7 +19,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Log.d("MainActivity", "Day id: " + position + ", week day: " + mainActivity.getWeekDayByDayId(position));
+        //LOG//Log.d("MainActivity", "Day id: " + position + ", week day: " + mainActivity.getWeekDayByDayId(position));
         Bundle bundle = new Bundle();
         bundle.putInt("weekDay", mainActivity.getWeekDayByDayId(position));
         ScheduleFragment scheduleFragment = new ScheduleFragment();
