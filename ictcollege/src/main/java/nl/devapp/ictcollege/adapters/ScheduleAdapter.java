@@ -11,7 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,8 +29,8 @@ public class ScheduleAdapter extends BaseAdapter {
         this.inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        for(int i = 0; i < list.size(); i++){
-            if(list.get(i).isProgressbar()){
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).isProgressbar()) {
                 hasProgressbar = true;
             }
         }
@@ -65,7 +64,7 @@ public class ScheduleAdapter extends BaseAdapter {
 
         Log.d("ScheduleAdapter", "GetView position: " + position + ", but this.items contains: " + this.items.size() + ", progressbar: " + item.isProgressbar());
 
-        if(item.isProgressbar()) {
+        if (item.isProgressbar()) {
             view = this.inflater.inflate(R.layout.row_schedule_progress, null);
 
             final ProgressBar progessBar = (ProgressBar) view.findViewById(R.id.schedule_progress);
@@ -80,12 +79,13 @@ public class ScheduleAdapter extends BaseAdapter {
                 public void run() {
                     handler.post(new Runnable() {
                         public void run() {
-                            progessBar.setProgress((int) (item.getStart() - System.currentTimeMillis()));
+                            progessBar.setProgress((int) (System.currentTimeMillis() - item.getStart()));
+                            Log.d("ScheduleAdapter", "Progess: " + (System.currentTimeMillis() - item.getStart()) + ", currentProgess: " + progessBar.getProgress() + ", max: " + item.getMax() + ", currentMax: " + progessBar.getMax());
                         }
                     });
                 }
             }, 0, 5000);
-        }else{
+        } else {
             view = this.inflater.inflate(R.layout.row_schedule, null);
 
             TextView number = (TextView) view.findViewById(R.id.item_number);

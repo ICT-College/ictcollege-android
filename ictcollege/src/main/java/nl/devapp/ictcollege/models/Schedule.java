@@ -55,7 +55,7 @@ public class Schedule {
         return isProgressbar;
     }
 
-    public void setProgressbar(boolean progressbar){
+    public void setProgressbar(boolean progressbar) {
         this.isProgressbar = progressbar;
     }
 
@@ -63,7 +63,7 @@ public class Schedule {
         this.max = max;
     }
 
-    public long getMax(){
+    public long getMax() {
         return max;
     }
 
@@ -71,7 +71,7 @@ public class Schedule {
         this.start = start;
     }
 
-    public long getStart(){
+    public long getStart() {
         return start;
     }
 }

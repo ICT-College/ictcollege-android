@@ -101,14 +101,14 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
 
                     mainActivity.scheduleArray.add(schedule);
 
-                    if(startMillis < currentMillis && currentMillis < stopMillis) {
+                    if (startMillis < currentMillis && currentMillis < stopMillis) {
                         Log.d("ScheduleTask", "Including Progessbar!");
 
                         Schedule progressBar = new Schedule();
 
                         progressBar.setWeekDay(eventDay);
                         progressBar.setProgressbar(true);
-                        progressBar.setMax(startMillis - stopMillis);
+                        progressBar.setMax(stopMillis - startMillis);
                         progressBar.setStart(startMillis);
 
                         mainActivity.scheduleArray.add(progressBar);

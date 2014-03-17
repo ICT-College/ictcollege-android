@@ -39,18 +39,17 @@ public class ScheduleFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         try {
-            scheduleArray = null;
-            scheduleArray = new ArrayList<Schedule>();
+            if (scheduleArray.isEmpty()) {
+                ArrayList<Schedule> tempScheduleArray = activity.scheduleArray;
 
-            scheduleAdapter = new ScheduleAdapter(activity, scheduleArray);
+                Log.d("ScheduleFragment", "Fragment of day: " + weekDay);
 
-            Log.d("ScheduleFragment", "Fragment of day: " + weekDay);
+                for (int i = 0; i < tempScheduleArray.size(); i++) {
+                    Log.d("ScheduleFragment", "Tester day: " + tempScheduleArray.get(i).getWeekDay());
 
-            for (int i = 0; i < activity.scheduleArray.size(); i++) {
-                Log.d("ScheduleFragment", "Tester day: " + activity.scheduleArray.get(i).getWeekDay());
-
-                if (activity.scheduleArray.get(i).getWeekDay() == weekDay) {
-                    scheduleArray.add(activity.scheduleArray.get(i));
+                    if (tempScheduleArray.get(i).getWeekDay() == weekDay) {
+                        scheduleArray.add(tempScheduleArray.get(i));
+                    }
                 }
             }
 
