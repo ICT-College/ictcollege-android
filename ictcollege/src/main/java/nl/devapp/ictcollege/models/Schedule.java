@@ -7,6 +7,9 @@ public class Schedule {
     String classRoom;
     int hour;
     int weekDay;
+    boolean isProgressbar = false;
+    long max;
+    long start;
 
     public String getLesson() {
         return lesson;
@@ -46,5 +49,29 @@ public class Schedule {
 
     public int getWeekDay() {
         return weekDay;
+    }
+
+    public boolean isProgressbar() {
+        return isProgressbar;
+    }
+
+    public void setProgressbar(boolean progressbar){
+        this.isProgressbar = progressbar;
+    }
+
+    public void setMax(long max) {
+        this.max = max;
+    }
+
+    public long getMax(){
+        return max;
+    }
+
+    public void setStart(long start) {
+        this.start = start;
+    }
+
+    public long getStart(){
+        return start;
     }
 }

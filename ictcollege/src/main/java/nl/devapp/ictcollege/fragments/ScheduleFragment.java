@@ -39,22 +39,24 @@ public class ScheduleFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         try {
-            if (scheduleArray.isEmpty()) {
-                ArrayList<Schedule> tempScheduleArray = activity.scheduleArray;
+            scheduleArray = null;
+            scheduleArray = new ArrayList<Schedule>();
 
-                Log.d("ScheduleFragment", "Fragment of day: " + weekDay);
+            scheduleAdapter = new ScheduleAdapter(activity, scheduleArray);
 
-                for (int i = 0; i < tempScheduleArray.size(); i++) {
-                    Log.d("ScheduleFragment", "Tester day: " + tempScheduleArray.get(i).getWeekDay());
+            Log.d("ScheduleFragment", "Fragment of day: " + weekDay);
 
-                    if (tempScheduleArray.get(i).getWeekDay() == weekDay) {
-                        scheduleArray.add(tempScheduleArray.get(i));
-                    }
+            for (int i = 0; i < activity.scheduleArray.size(); i++) {
+                Log.d("ScheduleFragment", "Tester day: " + activity.scheduleArray.get(i).getWeekDay());
+
+                if (activity.scheduleArray.get(i).getWeekDay() == weekDay) {
+                    scheduleArray.add(activity.scheduleArray.get(i));
                 }
             }
 
             scheduleList = (ListView) rootView.findViewById(R.id.rooster_list);
             scheduleList.setAdapter(scheduleAdapter);
+            scheduleList.addFooterView(new View(rootView.getContext()), null, true);
 
             scheduleAdapter.notifyDataSetChanged();
 
@@ -78,7 +80,7 @@ public class ScheduleFragment extends Fragment {
         this.activity = (MainActivity) activity;
         this.weekDay = getArguments().getInt("weekDay");
 
-        this.scheduleAdapter = new ScheduleAdapter(getActivity(), scheduleArray);
+        this.scheduleAdapter = new ScheduleAdapter(activity, scheduleArray);
     }
 
     @Override

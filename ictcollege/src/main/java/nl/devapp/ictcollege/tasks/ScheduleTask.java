@@ -81,8 +81,13 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
                     String eventSubject = targetObject.get("subject_abbreviation").getAsString();
 
                     Calendar startCalendar = isoToCalendar(targetObject.get("start").getAsString());
+                    Calendar stopCalander = isoToCalendar(targetObject.get("end").getAsString());
 
                     int eventDay = startCalendar.get(Calendar.DAY_OF_WEEK);
+
+                    long startMillis = startCalendar.getTimeInMillis();
+                    long stopMillis = stopCalander.getTimeInMillis();
+                    long currentMillis = System.currentTimeMillis();
 
                     Log.d("ScheduleTask", "Id: " + eventId + ", classroom: " + eventClassroom + ", subject: " + eventSubject + ", to: " + eventTo + ", day: " + eventDay);
 
@@ -95,6 +100,19 @@ public class ScheduleTask extends AsyncTask<ScheduleFragment, Void, JsonObject> 
                     schedule.setTo(eventTo);
 
                     mainActivity.scheduleArray.add(schedule);
+
+                    if(startMillis < currentMillis && currentMillis < stopMillis) {
+                        Log.d("ScheduleTask", "Including Progessbar!");
+
+                        Schedule progressBar = new Schedule();
+
+                        progressBar.setWeekDay(eventDay);
+                        progressBar.setProgressbar(true);
+                        progressBar.setMax(startMillis - stopMillis);
+                        progressBar.setStart(startMillis);
+
+                        mainActivity.scheduleArray.add(progressBar);
+                    }
                 }
 
                 mainActivity.mViewPager.getAdapter().notifyDataSetChanged();
